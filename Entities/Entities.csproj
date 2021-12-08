@@ -42,7 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="medicineEntities.cs" />
+    <Compile Include="medicinestockEntities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="reminderdetailsEntities.cs" />
+    <Compile Include="remindersEntities.cs" />
+    <Compile Include="useresEntities.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dal\Dal.csproj">

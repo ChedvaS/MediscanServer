@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="32c280717e454b5f8b9902fc5766a10d" Name="Diagram1">
+        <EntityTypeShape EntityType="MedicineProjectModel.MEDICINESTOCKtbl" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicineProjectModel.MEDICINEtbl" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicineProjectModel.REMINDERDETAILStbl" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicineProjectModel.REMINDERStbl" Width="1.5" PointX="9.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicineProjectModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicineProjectModel.USERStbl" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="MedicineProjectModel.FK__MEDICINES__IDMED__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicineProjectModel.FK__REMINDERD__IDMED__31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicineProjectModel.FK__MEDICINEt__USERN__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicineProjectModel.FK__REMINDERS__IDDET__37A5467C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

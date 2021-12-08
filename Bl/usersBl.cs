@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Bl
 {
-    public class Class1
+    public class usersBl
     {
-        
     }
 }
