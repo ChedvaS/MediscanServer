@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MedicineProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MEDICINESTOCKtbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDMEDICINE" Type="smallint" />
+          <Property Name="INSERTDATE" Type="datetime" />
+          <Property Name="EXPIRYDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MEDICINEtbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NAMEMEDICINE" Type="nvarchar" MaxLength="20" />
+          <Property Name="USERNAME" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="REMINDERDETAILStbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDMEDICINESTOCK" Type="smallint" />
+          <Property Name="SUBJECTGMAIL" Type="nvarchar" MaxLength="100" />
+          <Property Name="COMMENT" Type="nvarchar" MaxLength="100" />
+          <Property Name="AMOUNTDAYS" Type="smallint" />
+          <Property Name="FREQUINCY" Type="smallint" />
+          <Property Name="DOSAGE" Type="nvarchar" MaxLength="50" />
+          <Property Name="STARTDATE" Type="datetime" />
+          <Property Name="STATUSMEDICINE" Type="bit" />
+        </EntityType>
+        <EntityType Name="REMINDERStbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDDETAIL" Type="smallint" />
+          <Property Name="DATETAKE" Type="datetime" />
+          <Property Name="HOURTAKE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="USERStbl">
+          <Key>
+            <PropertyRef Name="GMAIL" />
+          </Key>
+          <Property Name="GMAIL" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="FNAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="PASS" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__MEDICINES__IDMED__2F10007B">
+          <End Role="MEDICINEtbl" Type="Self.MEDICINEtbl" Multiplicity="0..1" />
+          <End Role="MEDICINESTOCKtbl" Type="Self.MEDICINESTOCKtbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICINEtbl">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MEDICINESTOCKtbl">
+              <PropertyRef Name="IDMEDICINE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MEDICINEt__USERN__2C3393D0">
+          <End Role="USERStbl" Type="Self.USERStbl" Multiplicity="0..1" />
+          <End Role="MEDICINEtbl" Type="Self.MEDICINEtbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERStbl">
+              <PropertyRef Name="GMAIL" />
+            </Principal>
+            <Dependent Role="MEDICINEtbl">
+              <PropertyRef Name="USERNAME" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REMINDERD__IDMED__31EC6D26">
+          <End Role="MEDICINESTOCKtbl" Type="Self.MEDICINESTOCKtbl" Multiplicity="0..1" />
+          <End Role="REMINDERDETAILStbl" Type="Self.REMINDERDETAILStbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICINESTOCKtbl">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REMINDERDETAILStbl">
+              <PropertyRef Name="IDMEDICINESTOCK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REMINDERS__IDDET__37A5467C">
+          <End Role="REMINDERDETAILStbl" Type="Self.REMINDERDETAILStbl" Multiplicity="0..1" />
+          <End Role="REMINDERStbl" Type="Self.REMINDERStbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REMINDERDETAILStbl">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REMINDERStbl">
+              <PropertyRef Name="IDDETAIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MedicineProjectModelStoreContainer">
+          <EntitySet Name="MEDICINESTOCKtbl" EntityType="Self.MEDICINESTOCKtbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MEDICINEtbl" EntityType="Self.MEDICINEtbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REMINDERDETAILStbl" EntityType="Self.REMINDERDETAILStbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REMINDERStbl" EntityType="Self.REMINDERStbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERStbl" EntityType="Self.USERStbl" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__MEDICINES__IDMED__2F10007B" Association="Self.FK__MEDICINES__IDMED__2F10007B">
+            <End Role="MEDICINEtbl" EntitySet="MEDICINEtbl" />
+            <End Role="MEDICINESTOCKtbl" EntitySet="MEDICINESTOCKtbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MEDICINEt__USERN__2C3393D0" Association="Self.FK__MEDICINEt__USERN__2C3393D0">
+            <End Role="USERStbl" EntitySet="USERStbl" />
+            <End Role="MEDICINEtbl" EntitySet="MEDICINEtbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REMINDERD__IDMED__31EC6D26" Association="Self.FK__REMINDERD__IDMED__31EC6D26">
+            <End Role="MEDICINESTOCKtbl" EntitySet="MEDICINESTOCKtbl" />
+            <End Role="REMINDERDETAILStbl" EntitySet="REMINDERDETAILStbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REMINDERS__IDDET__37A5467C" Association="Self.FK__REMINDERS__IDDET__37A5467C">
+            <End Role="REMINDERDETAILStbl" EntitySet="REMINDERDETAILStbl" />
+            <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MedicineProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MEDICINESTOCKtbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDMEDICINE" Type="Int16" />
+          <Property Name="INSERTDATE" Type="DateTime" Precision="3" />
+          <Property Name="EXPIRYDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="MEDICINEtbl" Relationship="Self.FK__MEDICINES__IDMED__2F10007B" FromRole="MEDICINESTOCKtbl" ToRole="MEDICINEtbl" />
+          <NavigationProperty Name="REMINDERDETAILStbl" Relationship="Self.FK__REMINDERD__IDMED__31EC6D26" FromRole="MEDICINESTOCKtbl" ToRole="REMINDERDETAILStbl" />
+        </EntityType>
+        <EntityType Name="MEDICINEtbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NAMEMEDICINE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="USERNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MEDICINESTOCKtbl" Relationship="Self.FK__MEDICINES__IDMED__2F10007B" FromRole="MEDICINEtbl" ToRole="MEDICINESTOCKtbl" />
+          <NavigationProperty Name="USERStbl" Relationship="Self.FK__MEDICINEt__USERN__2C3393D0" FromRole="MEDICINEtbl" ToRole="USERStbl" />
+        </EntityType>
+        <EntityType Name="REMINDERDETAILStbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDMEDICINESTOCK" Type="Int16" />
+          <Property Name="SUBJECTGMAIL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="COMMENT" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AMOUNTDAYS" Type="Int16" />
+          <Property Name="FREQUINCY" Type="Int16" />
+          <Property Name="DOSAGE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="STARTDATE" Type="DateTime" Precision="3" />
+          <Property Name="STATUSMEDICINE" Type="Boolean" />
+          <NavigationProperty Name="MEDICINESTOCKtbl" Relationship="Self.FK__REMINDERD__IDMED__31EC6D26" FromRole="REMINDERDETAILStbl" ToRole="MEDICINESTOCKtbl" />
+          <NavigationProperty Name="REMINDERStbl" Relationship="Self.FK__REMINDERS__IDDET__37A5467C" FromRole="REMINDERDETAILStbl" ToRole="REMINDERStbl" />
+        </EntityType>
+        <EntityType Name="REMINDERStbl">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDDETAIL" Type="Int16" />
+          <Property Name="DATETAKE" Type="DateTime" Precision="3" />
+          <Property Name="HOURTAKE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="REMINDERDETAILStbl" Relationship="Self.FK__REMINDERS__IDDET__37A5467C" FromRole="REMINDERStbl" ToRole="REMINDERDETAILStbl" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="USERStbl">
+          <Key>
+            <PropertyRef Name="GMAIL" />
+          </Key>
+          <Property Name="GMAIL" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PASS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MEDICINEtbl" Relationship="Self.FK__MEDICINEt__USERN__2C3393D0" FromRole="USERStbl" ToRole="MEDICINEtbl" />
+        </EntityType>
+        <Association Name="FK__MEDICINES__IDMED__2F10007B">
+          <End Role="MEDICINEtbl" Type="Self.MEDICINEtbl" Multiplicity="0..1" />
+          <End Role="MEDICINESTOCKtbl" Type="Self.MEDICINESTOCKtbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICINEtbl">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MEDICINESTOCKtbl">
+              <PropertyRef Name="IDMEDICINE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REMINDERD__IDMED__31EC6D26">
+          <End Role="MEDICINESTOCKtbl" Type="Self.MEDICINESTOCKtbl" Multiplicity="0..1" />
+          <End Role="REMINDERDETAILStbl" Type="Self.REMINDERDETAILStbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MEDICINESTOCKtbl">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REMINDERDETAILStbl">
+              <PropertyRef Name="IDMEDICINESTOCK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MEDICINEt__USERN__2C3393D0">
+          <End Role="USERStbl" Type="Self.USERStbl" Multiplicity="0..1" />
+          <End Role="MEDICINEtbl" Type="Self.MEDICINEtbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERStbl">
+              <PropertyRef Name="GMAIL" />
+            </Principal>
+            <Dependent Role="MEDICINEtbl">
+              <PropertyRef Name="USERNAME" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REMINDERS__IDDET__37A5467C">
+          <End Role="REMINDERDETAILStbl" Type="Self.REMINDERDETAILStbl" Multiplicity="0..1" />
+          <End Role="REMINDERStbl" Type="Self.REMINDERStbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REMINDERDETAILStbl">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REMINDERStbl">
+              <PropertyRef Name="IDDETAIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MedicineProjectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MEDICINESTOCKtbl" EntityType="Self.MEDICINESTOCKtbl" />
+          <EntitySet Name="MEDICINEtbl" EntityType="Self.MEDICINEtbl" />
+          <EntitySet Name="REMINDERDETAILStbl" EntityType="Self.REMINDERDETAILStbl" />
+          <EntitySet Name="REMINDERStbl" EntityType="Self.REMINDERStbl" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="USERStbl" EntityType="Self.USERStbl" />
+          <AssociationSet Name="FK__MEDICINES__IDMED__2F10007B" Association="Self.FK__MEDICINES__IDMED__2F10007B">
+            <End Role="MEDICINEtbl" EntitySet="MEDICINEtbl" />
+            <End Role="MEDICINESTOCKtbl" EntitySet="MEDICINESTOCKtbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REMINDERD__IDMED__31EC6D26" Association="Self.FK__REMINDERD__IDMED__31EC6D26">
+            <End Role="MEDICINESTOCKtbl" EntitySet="MEDICINESTOCKtbl" />
+            <End Role="REMINDERDETAILStbl" EntitySet="REMINDERDETAILStbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MEDICINEt__USERN__2C3393D0" Association="Self.FK__MEDICINEt__USERN__2C3393D0">
+            <End Role="USERStbl" EntitySet="USERStbl" />
+            <End Role="MEDICINEtbl" EntitySet="MEDICINEtbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REMINDERS__IDDET__37A5467C" Association="Self.FK__REMINDERS__IDDET__37A5467C">
+            <End Role="REMINDERDETAILStbl" EntitySet="REMINDERDETAILStbl" />
+            <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MedicineProjectModelStoreContainer" CdmEntityContainer="MedicineProjectEntities">
+          <EntitySetMapping Name="MEDICINESTOCKtbl">
+            <EntityTypeMapping TypeName="MedicineProjectModel.MEDICINESTOCKtbl">
+              <MappingFragment StoreEntitySet="MEDICINESTOCKtbl">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDMEDICINE" ColumnName="IDMEDICINE" />
+                <ScalarProperty Name="INSERTDATE" ColumnName="INSERTDATE" />
+                <ScalarProperty Name="EXPIRYDATE" ColumnName="EXPIRYDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MEDICINEtbl">
+            <EntityTypeMapping TypeName="MedicineProjectModel.MEDICINEtbl">
+              <MappingFragment StoreEntitySet="MEDICINEtbl">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NAMEMEDICINE" ColumnName="NAMEMEDICINE" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REMINDERDETAILStbl">
+            <EntityTypeMapping TypeName="MedicineProjectModel.REMINDERDETAILStbl">
+              <MappingFragment StoreEntitySet="REMINDERDETAILStbl">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDMEDICINESTOCK" ColumnName="IDMEDICINESTOCK" />
+                <ScalarProperty Name="SUBJECTGMAIL" ColumnName="SUBJECTGMAIL" />
+                <ScalarProperty Name="COMMENT" ColumnName="COMMENT" />
+                <ScalarProperty Name="AMOUNTDAYS" ColumnName="AMOUNTDAYS" />
+                <ScalarProperty Name="FREQUINCY" ColumnName="FREQUINCY" />
+                <ScalarProperty Name="DOSAGE" ColumnName="DOSAGE" />
+                <ScalarProperty Name="STARTDATE" ColumnName="STARTDATE" />
+                <ScalarProperty Name="STATUSMEDICINE" ColumnName="STATUSMEDICINE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REMINDERStbl">
+            <EntityTypeMapping TypeName="MedicineProjectModel.REMINDERStbl">
+              <MappingFragment StoreEntitySet="REMINDERStbl">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IDDETAIL" ColumnName="IDDETAIL" />
+                <ScalarProperty Name="DATETAKE" ColumnName="DATETAKE" />
+                <ScalarProperty Name="HOURTAKE" ColumnName="HOURTAKE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MedicineProjectModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERStbl">
+            <EntityTypeMapping TypeName="MedicineProjectModel.USERStbl">
+              <MappingFragment StoreEntitySet="USERStbl">
+                <ScalarProperty Name="GMAIL" ColumnName="GMAIL" />
+                <ScalarProperty Name="FNAME" ColumnName="FNAME" />
+                <ScalarProperty Name="PASS" ColumnName="PASS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
