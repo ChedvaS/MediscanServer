@@ -16,7 +16,7 @@ namespace Dal
             return db.REMINDERStbl.ToList();
         }
         //הוספה
-        public static void AddCloth(REMINDERStbl r)
+        public static void AddReminders(REMINDERStbl r)
         {
             db.REMINDERStbl.Add(r);
             db.SaveChanges();

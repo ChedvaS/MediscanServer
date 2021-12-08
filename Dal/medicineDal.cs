@@ -16,7 +16,7 @@ namespace Dal
             return db.MEDICINEtbl.ToList();
         }
         //הוספה
-        public static void AddCloth(MEDICINEtbl m)
+        public static void AddMedicine(MEDICINEtbl m)
         {
             db.MEDICINEtbl.Add(m);
             db.SaveChanges();

@@ -17,7 +17,7 @@ namespace Dal
             return db.MEDICINESTOCKtbl.ToList();
         }
         //הוספה
-        public static void AddCloth(MEDICINESTOCKtbl m)
+        public static void AddMedicineStock(MEDICINESTOCKtbl m)
         {
             db.MEDICINESTOCKtbl.Add(m);
             db.SaveChanges();

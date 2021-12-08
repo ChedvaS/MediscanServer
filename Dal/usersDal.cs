@@ -16,7 +16,7 @@ namespace Dal
             return db.USERStbl.ToList();
         }
         //הוספה
-        public static void AddCloth(USERStbl u)
+        public static void AddUsers(USERStbl u)
         {
             db.USERStbl.Add(u);
             db.SaveChanges();

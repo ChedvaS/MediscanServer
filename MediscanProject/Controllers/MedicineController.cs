@@ -4,7 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using Bl;
+using Entities;
 
 namespace MediscanProject.Controllers
 {
@@ -17,25 +18,25 @@ namespace MediscanProject.Controllers
             [Route("GetMedicineList")]
             public IHttpActionResult GetMedicineList()
             {
-                return Ok(medic.GetCategoryList());
+                return Ok(medicineBl.GetMedicineList());
             }
 
             //שליפת קטגוריה לפי קוד
             [HttpGet]
-            [Route("GetCategoryById/{idCategory}")]
-            public IHttpActionResult GetCategoryById(int idCategory)
+            [Route("GetMedicineById/{idMedicine}")]
+            public IHttpActionResult GetMedicineById(int idMedicine)
             {
-                return Ok(CategoryBl.GetCategoryById(idCategory));
+                return Ok(medicineBl.GetMedicineById(idMedicine));
             }
 
             //הוספה לרשימה
             [HttpPut]
-            [Route("addCategory")]
-            public IHttpActionResult addCategory(CategoryEntities category)
+            [Route("addMedicine")]
+            public IHttpActionResult addMedicine(medicineEntities medicine)
             {
                 try
                 {
-                    CategoryBl.addCategory(category);
+                    medicineBl.addMedicine(medicine);
                     return Ok(true);
 
                 }
@@ -45,14 +46,14 @@ namespace MediscanProject.Controllers
                 }
             }
 
-            //עדכון קטגוריה ברשימה
+            //עדכון תרופה ברשימה
             [HttpPost]
             [Route("Category")]
-            public IHttpActionResult updateCategory(CategoryEntities category)
+            public IHttpActionResult updateMedicine(medicineEntities medicine)
             {
                 try
                 {
-                    CategoryBl.updateCategory(category);
+                    medicineBl.updateMedicine(medicine);
                     return Ok(true);
 
                 }
@@ -65,12 +66,12 @@ namespace MediscanProject.Controllers
 
             //הסרת קטגוריה מהרשימה
             [HttpDelete]
-            [Route("deleteCategory/{id}")]
-            public IHttpActionResult deleteCategory(int id)
+            [Route("deleteMedicine/{id}")]
+            public IHttpActionResult deleteMedicine(int id)
             {
                 try
                 {
-                    CategoryBl.deleteCategory(id);
+                    medicineBl.deleteMedicine(id);
                     return Ok(true);
 
                 }
