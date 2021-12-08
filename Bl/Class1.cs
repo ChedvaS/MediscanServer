@@ -8,6 +8,6 @@ namespace Bl
 {
     public class Class1
     {
-        hhhh
+        
     }
 }
