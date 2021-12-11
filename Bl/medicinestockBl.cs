@@ -8,5 +8,8 @@ namespace Bl
 {
     public   class medicinestockBl
     {
+
+
+
     }
 }

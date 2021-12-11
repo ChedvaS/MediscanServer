@@ -48,7 +48,7 @@ namespace MediscanProject.Controllers
 
             //עדכון תרופה ברשימה
             [HttpPost]
-            [Route("Category")]
+            [Route("updateMedicine")]
             public IHttpActionResult updateMedicine(medicineEntities medicine)
             {
                 try
@@ -64,7 +64,7 @@ namespace MediscanProject.Controllers
 
             }
 
-            //הסרת קטגוריה מהרשימה
+            //הסרת תרופה מהרשימה
             [HttpDelete]
             [Route("deleteMedicine/{id}")]
             public IHttpActionResult deleteMedicine(int id)

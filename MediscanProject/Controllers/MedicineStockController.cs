@@ -9,5 +9,9 @@ namespace MediscanProject.Controllers
 {
     public class MedicineStockController : ApiController
     {
+
+
+
+
     }
 }

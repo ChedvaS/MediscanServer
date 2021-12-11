@@ -11,7 +11,7 @@ namespace Bl
     public class usersBl
     {
         //הוספה לקוח לרשימה
-        public static void addReminderDetails(useresEntities u)
+        public static void addUser(useresEntities u)
         {
             usersDal.AddUsers(useresEntities.ConvertToDb(u));
         }
