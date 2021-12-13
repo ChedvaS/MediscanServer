@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MediscanProject")]
+[assembly: AssemblyTitle("MediscanBackend")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MediscanProject")]
+[assembly: AssemblyProduct("MediscanBackend")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f5abcb1d-6153-41b3-b883-31bf4f917891")]
+[assembly: Guid("5fdd746d-0e51-47ce-8b89-cfde83fb0c1b")]
 
 // Version information for an assembly consists of the following four values:
 //

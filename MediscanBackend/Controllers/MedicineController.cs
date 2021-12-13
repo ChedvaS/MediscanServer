@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using Bl;
 using Entities;
@@ -80,5 +82,22 @@ namespace MediscanProject.Controllers
                     return Ok(false);
                 }
             }
+        [Route]
+        [HttpPost]
+        public void saveSticker()
+        {
+            var httpRequest = HttpContext.Current.Request;
+            var postedFile = httpRequest.Files["sticker"];
+            string filePath = "";
+            if (postedFile != null)
+            {
+                string name = postedFile.FileName;
+                name = name.Substring(0, name.IndexOf('.'));
+                var fileName = name  + Path.GetExtension(postedFile.FileName);
+                filePath = HttpContext.Current.Server.MapPath("~/Stickers/" + fileName);
+                if (!File.Exists(filePath))
+                    postedFile.SaveAs(filePath);
+            }
+        }
     }
 }
