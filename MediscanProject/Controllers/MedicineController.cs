@@ -9,7 +9,7 @@ using Entities;
 
 namespace MediscanProject.Controllers
 {
-    [RoutePrefix("api/medicine")]
+    [RoutePrefix("api/medicinee")]
     public class MedicineController : ApiController
     {
 

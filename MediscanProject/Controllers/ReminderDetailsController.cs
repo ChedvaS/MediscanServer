@@ -12,8 +12,6 @@ namespace MediscanProject.Controllers
     public class ReminderDetailsController : ApiController
     {
 
-
-
         [RoutePrefix("api/reminderdatails")]
         public class MedicineController : ApiController
         {
