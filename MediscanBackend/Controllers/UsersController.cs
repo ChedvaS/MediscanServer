@@ -7,14 +7,12 @@ using System.Web.Http;
 using Bl;
 using Entities;
 
-namespace MediscanProject.Controllers
+namespace MediscanBackend.Controllers
 {
 
     [RoutePrefix("api/user")]
     public class UsersController : ApiController
     {
-
-
             //הוספה לרשימה
             [HttpPut]
             [Route("addUser")]

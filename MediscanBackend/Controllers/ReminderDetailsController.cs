@@ -7,15 +7,12 @@ using System.Web.Http;
 using Bl;
 using Entities;
 
-namespace MediscanProject.Controllers
+namespace MediscanBackend.Controllers
 {
+
+    [RoutePrefix("api/reminderdatails")]
     public class ReminderDetailsController : ApiController
     {
-
-        [RoutePrefix("api/reminderdatails")]
-        public class MedicineController : ApiController
-        {
-
             //שליפת רשימת פרטי תזכורת
             [HttpGet]
             [Route("GetReminderDetailsList")]
@@ -83,6 +80,6 @@ namespace MediscanProject.Controllers
                     return Ok(false);
                 }
             }
-        }
+        
     }
 }

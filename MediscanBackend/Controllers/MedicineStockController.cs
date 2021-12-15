@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace MediscanProject.Controllers
+namespace MediscanBackend.Controllers
 {
     public class MedicineStockController : ApiController
     {

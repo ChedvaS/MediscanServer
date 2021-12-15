@@ -9,9 +9,9 @@ using System.Web.Http;
 using Bl;
 using Entities;
 
-namespace MediscanProject.Controllers
+namespace MediscanBackend.Controllers
 {
-    [RoutePrefix("api/medicinee")]
+    [RoutePrefix("api/medicine")]
     public class MedicineController : ApiController
     {
 
@@ -82,6 +82,8 @@ namespace MediscanProject.Controllers
                     return Ok(false);
                 }
             }
+
+        //פונקציה ששומרת התמונה של מדבקת התרופה
         [Route]
         [HttpPost]
         public void saveSticker()

@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace MediscanProject.App_Start
+namespace MediscanBackend.App_Start
 {
     public class RemindersController : ApiController
     {
