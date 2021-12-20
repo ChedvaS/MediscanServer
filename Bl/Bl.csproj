@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dal">
+      <HintPath>..\Dal\bin\Debug\Dal.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dal\bin\Debug\EntityFramework.dll</HintPath>
@@ -57,10 +60,6 @@
     <Compile Include="usersBl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dal\Dal.csproj">
-      <Project>{44f31f64-b03f-4391-9963-af9ea3f83e58}</Project>
-      <Name>Dal</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
       <Project>{09a8848a-f5ad-4a5d-9b1a-686d35dc9a8b}</Project>
       <Name>Entities</Name>

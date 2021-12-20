@@ -45,7 +45,7 @@
   <ItemGroup>
     <Reference Include="Dal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Dal\bin\Debug\Dal.dll</HintPath>
+      <HintPath>..\Dal\obj\Debug\Dal.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,12 +121,12 @@
     <Folder Include="Stickers\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\source\repos\MediscanServer\Bl\Bl.csproj">
-      <Project>{B2EA7E50-4495-46FB-8C3E-3B4448E68D7D}</Project>
+    <ProjectReference Include="..\Bl\Bl.csproj">
+      <Project>{b2ea7e50-4495-46fb-8c3e-3b4448e68d7d}</Project>
       <Name>Bl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\MediscanServer\Entities\Entities.csproj">
-      <Project>{09A8848A-F5AD-4A5D-9B1A-686D35DC9A8B}</Project>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Project>{09a8848a-f5ad-4a5d-9b1a-686d35dc9a8b}</Project>
       <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>

@@ -84,7 +84,7 @@ namespace MediscanBackend.Controllers
             }
 
         //פונקציה ששומרת התמונה של מדבקת התרופה
-        [Route]
+        [Route("saveSticker")]
         [HttpPost]
         public void saveSticker()
         {
