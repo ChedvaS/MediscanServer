@@ -99,8 +99,16 @@ namespace MediscanBackend.Controllers
                 filePath = HttpContext.Current.Server.MapPath("~/Stickers/" + fileName);
                 if (!File.Exists(filePath))
                     postedFile.SaveAs(filePath);
+                 string s =medicineBl.PullTextFromSticker(filePath);
+                Console.WriteLine(s);
+                
             }
             return Ok(true);
         }
+
+
+
+
+
     }
 }
