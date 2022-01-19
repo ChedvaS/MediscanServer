@@ -14,6 +14,7 @@ namespace Dal
         //שליפה
         public static List<MEDICINESTOCKtbl> Getall()
         {
+            var l = db.MEDICINEtbl.ToList();
             return db.MEDICINESTOCKtbl.ToList();
         }
         //הוספה
