@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using IronOcr;
 namespace Bl
 {
   public  class medicineBl
@@ -39,5 +39,28 @@ namespace Bl
         {
             medicineDal.delete(id);
         }
+        //פונקציה לשליפת הטקסט מתוך המדבקה
+        public static string PullTextFromSticker(string path )
+        {
+
+            var Ocr = new IronTesseract();
+            Ocr.Language = OcrLanguage.Hebrew;
+            Ocr.AddSecondaryLanguage(OcrLanguage.English);
+            string s;
+            using (var input = new OcrInput())
+            {
+                input.AddImage(path);
+                // add image filters if needed 
+                // In this case, even thought input is very low quality
+                // IronTesseract can read what conventional Tesseract cannot.
+                var Result = Ocr.Read(input);
+                // Console can't print Arabic on Windows easily.  
+                // Let's save to disk instead.
+               // Result.SaveAsTextFile("Hebrew.txt");
+                s = Result.Text;
+            }
+
+            return s;
+         }
     }
 }
