@@ -13,7 +13,7 @@ namespace Bl
         // שליפת רשימת מלאי התרופות לפי קוד
         public static medicinestockEntities Getmedicinestock(int idMedicine)
         {
-            return medicinestockEntities.convertToEntities(medicinestockDal.Getall().FirstOrDefault(x => x.IDMEDICINE==idMedicine));
+            return medicinestockEntities.convertToEntities(medicinestockDal.Getall().FirstOrDefault(x => x.ID==idMedicine));
         }
 
     }
