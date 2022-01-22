@@ -15,6 +15,10 @@ namespace Bl
         {
             return medicinestockEntities.convertToEntities(medicinestockDal.Getall().FirstOrDefault(x => x.IDMEDICINE==idMedicine));
         }
+
+
+     
+          
         
-    }
+        }
 }

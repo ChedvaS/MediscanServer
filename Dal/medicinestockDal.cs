@@ -37,5 +37,9 @@ namespace Dal
             db.MEDICINESTOCKtbl.FirstOrDefault(x => x.ID == m.ID).EXPIRYDATE = m.EXPIRYDATE;
             db.SaveChanges();
         }
+
+       
+        
+
     }
 }
