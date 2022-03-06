@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\שירה\Desktop\לימודים\פרויקט לימודים סופי\server project mediscan\MediscanServer\Dal\Mediscane.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\שירה\Desktop\לימודים\final project mediscan\server side\Dal\Mediscane.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

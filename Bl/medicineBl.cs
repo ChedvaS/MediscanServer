@@ -27,6 +27,7 @@ namespace Bl
         //הוספה תרופה לרשימה
         public static void addMedicine(medicineEntities m)
         {
+
             medicineDal.AddMedicine(medicineEntities.ConvertToDb(m));
         }
 
@@ -43,27 +44,28 @@ namespace Bl
         }
 
         //פונקציה לשליפת הטקסט מתוך המדבקה
-        public static string PullTextFromSticker(string path,string email)
+        public static Dictionary<string, short>  PullTextFromSticker(string path, string email)
         {
             var Ocr = new IronTesseract();
             Ocr.Language = OcrLanguage.Hebrew;
             Ocr.AddSecondaryLanguage(OcrLanguage.English);
-
+            IronOcr.OcrResult.Line [] listText;
             string TextFromImg;
             using (var input = new OcrInput())
             {
                 input.AddImage(path);
                 var Result = Ocr.Read(input);
                 TextFromImg = Result.Text;
-                var listText = Result.Lines;
-                InsertDataFromImgToDataBase(listText,email);
+                listText = Result.Lines;
             }
-            return TextFromImg;
+            return InsertDataFromImgToDataBase(listText, email);
         }
 
         //פונקציה להכנסת הנתונים לטבלאות המתאימות בדתה בייס, שקיבלנו מתוך הסריקה 
-        public static void InsertDataFromImgToDataBase(IronOcr.OcrResult.Line[] TextFromImg, string email)
+        public static Dictionary<string, short> InsertDataFromImgToDataBase(IronOcr.OcrResult.Line[] TextFromImg, string email)
         {
+            //יצירת מילון לשמירת המפתחות של כל טבלא
+            Dictionary<string, short> DicOfIdTables = new Dictionary<string, short>();
             //[]TextFromImg -הוא מערך המכיל את נתוני התמונה כל מקום מכיל שורה של התמונה
             //שם המבוטח
             string namePatient = TextFromImg[0].Text;//שורה ראשונה מכילה בתוכה את שם המבוטח
@@ -94,7 +96,7 @@ namespace Bl
             // לעשות בדיקה על התאריך- תאריך
             string DateLine = TextFromImg[6].Text;
             List<int> ListOfDatePart = ExtractNumFromString(DateLine);
-            DateTime DateInsert = new DateTime(ListOfDatePart[2] + 2000, ListOfDatePart[1], ListOfDatePart[0]);
+            DateTime DateInsert = new DateTime(ListOfDatePart[2] + 2000, ListOfDatePart[1], ListOfDatePart[0], 8, 0, 0);
 
             //הכנסת הנתונים שהתקבלו מן הסריקה לדתה בייס
             //הערות לאופן לקיחת התרופה
@@ -105,19 +107,33 @@ namespace Bl
                 nameMedicine = namemedicine,
                 userName = email
             };
-            addMedicine(md);//הכנסת התרופה לדתה בייס
+          
+            //בדיקה האם המשתמש קיים עם אותה התרופה
+            var medicineEntities = GetMedicineList().FirstOrDefault(x => x.nameMedicine == md.nameMedicine && x.userName == md.userName);
+            short idmedicine;
+            if (medicineEntities == null)//אם לא קיים מוסיף חדש
+            {
+                addMedicine(md);//הכנסת התרופה לדתה בייס  
+                idmedicine = GetMedicineList().Last().id;
+            }
+            else//אם קיים לוקח את קוד התרופה הישן ושם אותו במה שנכנס
+                idmedicine = medicineEntities.id;
+            //מוסיף למילון את מפתח של התרופה
+            DicOfIdTables.Add("idMedicne", idmedicine);
             //הכנסה לטבלת מלאי תרופות 
             medicinestockEntities mds = new medicinestockEntities()
             {
-                idMedicne = GetMedicineList().Last().id,
+                idMedicne = idmedicine,
                 insertDate = DateTime.Today
             };
             medicinestockBl.addMedicinestock(mds);
+            //מוסיף למילון את מפתח של מלאי תרופות
+            DicOfIdTables.Add("idMedicneStock", medicinestockBl.GetMedicineSList().Last().id);
             //הכנסה לטבלת פרטי תיזכורת
             reminderdetailsEntities rd = new reminderdetailsEntities()
             {
                 idMedicineStock = medicinestockBl.GetMedicineSList().Last().id,
-                subjectGmail = $"היי {namemedicine} עלייך לקחת את התרופה: {namemedicine}",
+                subjectGmail = $"היי {namePatient} עלייך לקחת את התרופה: {namemedicine}",
                 comment = commentt,
                 amountDays = NumOfDays,
                 frequincy = AmountInDay,
@@ -125,25 +141,28 @@ namespace Bl
                 startDate = DateInsert
             };
             reminderdetailsBl.addReminderDetails(rd);
-
-            int index = 0;//אינדקס שימספר את מספר הפעמים שנכתב תאריך בתיזכורות האינדקס גדל עד ששוה למספר הפעמים ביום ואז מגדיל  את התאריך של התיזכורת ליום הבא 
+            short idreminderdetail = reminderdetailsBl.GetReminderDetailsList().Last().id;
+            //מוסיף למילון את מפתח של פרטי תיזכורות
+            DicOfIdTables.Add("Idreminderdetails", idreminderdetail);
             //יצירת כמות תיזכורות בהתאם לנתונים
-            for (int i = 0; i < NumOfDays * AmountInDay; i++)
+            int IaddHours = 0;//משתנה להוספת שעות 
+           
+            for (int i = 0; i < AmountInDay; i++)
             {
-                if (index > AmountInDay)
-                {
-                    DateInsert = DateInsert.AddDays(1);
-                    index = 0;
-                }
                 remindersEntities r = new remindersEntities()
                 {
-                    idDetail = reminderdetailsBl.GetReminderDetailsList().Last().id,
+                    idDetail = idreminderdetail,
                     dateTake = DateInsert,
-                    hourTake = DateInsert.AddHours(24 / AmountInDay)
+                    hourTake = DateInsert.AddHours(IaddHours)
                 };
-                index++;
-                remindersBl.addReminderDetails(r);
+                remindersBl.addReminder(r);
+
+                //מוסיף למילון את מפתח של תיזכורות
+                DicOfIdTables.Add("Idreminder"+i+1,remindersBl.GetReminderList().Last().id);
+                IaddHours += 24 / AmountInDay;
             }
+
+            return DicOfIdTables;
         }
         //פונקציה לחילוץ מספרים מתוך מחרוזת 
         public static List<int> ExtractNumFromString(string s)

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MedicineProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MedicineProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="MEDICINESTOCKtbl">
           <Key>
             <PropertyRef Name="ID" />
@@ -19,7 +19,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="NAMEMEDICINE" Type="nvarchar" MaxLength="20" />
+          <Property Name="NAMEMEDICINE" Type="nvarchar" MaxLength="200" />
           <Property Name="USERNAME" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="REMINDERDETAILStbl">
@@ -135,8 +135,7 @@
             <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MedicineProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -156,7 +155,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NAMEMEDICINE" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NAMEMEDICINE" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="USERNAME" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MEDICINESTOCKtbl" Relationship="Self.FK__MEDICINES__IDMED__2F10007B" FromRole="MEDICINEtbl" ToRole="MEDICINESTOCKtbl" />
           <NavigationProperty Name="USERStbl" Relationship="Self.FK__MEDICINEt__USERN__2C3393D0" FromRole="MEDICINEtbl" ToRole="USERStbl" />

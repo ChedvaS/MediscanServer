@@ -13,9 +13,9 @@ namespace MediscanBackend.Controllers
     [RoutePrefix("api/medicineStock")]
     public class MedicineStockController : ApiController
     {
-        // שליפת רשימת מלאי התרופות לפי קוד
+        // שליפת  מלאי התרופות לפי קוד
         [HttpGet]
-        [Route("GetmedicineStockList/{idMedicine}")]
+        [Route("GetmedicineStockById/{idMedicine}")]
         public IHttpActionResult GetmedicineStockList(int idMedicine)
         {
             return Ok(medicinestockBl.Getmedicinestock(idMedicine));

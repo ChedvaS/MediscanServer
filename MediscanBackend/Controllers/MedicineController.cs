@@ -84,10 +84,11 @@ namespace MediscanBackend.Controllers
             }
 
         //פונקציה ששומרת התמונה של מדבקת התרופה
-        [Route("saveSticker/{email}")]
+        [Route("saveSticker/{email}/{num}")]
         [HttpPost]
-        public IHttpActionResult saveSticker(string email)
+        public IHttpActionResult saveSticker(string email, int num)
         {
+            Dictionary<string, short> s=new Dictionary<string, short>();
             var httpRequest = HttpContext.Current.Request;
             var postedFile = httpRequest.Files["sticker"];
             string filePath = "";
@@ -99,11 +100,9 @@ namespace MediscanBackend.Controllers
                 filePath = HttpContext.Current.Server.MapPath("~/Stickers/" + fileName);
                 if (!File.Exists(filePath))
                     postedFile.SaveAs(filePath);
-                 string s =medicineBl.PullTextFromSticker(filePath,email);
-                Console.WriteLine(s);
-                
+              s =medicineBl.PullTextFromSticker(filePath,email);
             }
-            return Ok(true);
+            return Ok(s);
         }
 
 
