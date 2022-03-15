@@ -15,9 +15,15 @@ namespace Bl
         //שליפת רשימת תרופות
         public static List<medicineEntities> GetMedicineList()
         {
-            return medicineEntities.ConvertToListEntities(medicineDal.Getall());
+            return medicineEntities.ConvertToListEntities(Dal.medicineDal.Getall());
         }
 
+        ////פונקציה לשליפת תרופות לפי שם משתמש
+        //public static List<string> GetNameMediByUserName(string gmail)
+        //{
+        //    return medicineEntities.convertToEntities(medicineDal.Getall().FirstOrDefault(x => x.USERNAME == gmail));
+        //}
+        
         //שליפת תרופה לפי קוד
         public static medicineEntities GetMedicineById(int idMedicine)
         {
@@ -28,19 +34,19 @@ namespace Bl
         public static void addMedicine(medicineEntities m)
         {
 
-            medicineDal.AddMedicine(medicineEntities.ConvertToDb(m));
+            Dal.medicineDal.AddMedicine(medicineEntities.ConvertToDb(m));
         }
 
         //עדכון תרופות ברשימה
         public static void updateMedicine(medicineEntities m)
         {
-            medicineDal.update(medicineEntities.ConvertToDb(m));
+            Dal.medicineDal.update(medicineEntities.ConvertToDb(m));
         }
 
         //הסרת תרופה מהרשימה
         public static void deleteMedicine(int id)
         {
-            medicineDal.delete(id);
+            Dal.medicineDal.delete(id);
         }
 
         //פונקציה לשליפת הטקסט מתוך המדבקה
@@ -153,7 +159,8 @@ namespace Bl
                 {
                     idDetail = idreminderdetail,
                     dateTake = DateInsert,
-                    hourTake = DateInsert.AddHours(IaddHours)
+                    hourTake = DateInsert.AddHours(IaddHours),
+                    gmail = email
                 };
                 remindersBl.addReminder(r);
 
@@ -190,5 +197,6 @@ namespace Bl
             }
             return ListOfNum;
         }
+
     }
 }

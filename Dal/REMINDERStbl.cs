@@ -18,7 +18,9 @@ namespace Dal
         public Nullable<short> IDDETAIL { get; set; }
         public Nullable<System.DateTime> DATETAKE { get; set; }
         public Nullable<System.DateTime> HOURTAKE { get; set; }
+        public string GMAIL { get; set; }
     
         public virtual REMINDERDETAILStbl REMINDERDETAILStbl { get; set; }
+        public virtual USERStbl USERStbl { get; set; }
     }
 }

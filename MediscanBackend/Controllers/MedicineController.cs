@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using Bl;
+using Dal;
 using Entities;
 
 namespace MediscanBackend.Controllers
@@ -20,11 +21,19 @@ namespace MediscanBackend.Controllers
             [Route("GetMedicineList")]
             public IHttpActionResult GetMedicineList()
             {
-                return Ok(medicineBl.GetMedicineList());
+            return Ok(medicineBl.GetMedicineList()) ;
             }
 
-            //שליפת קטגוריה לפי קוד
-            [HttpGet]
+        //שליפת רשימת התרופות לפי מייל
+        [HttpGet]
+        [Route("GetMedicineListByGmail/{gmail}/1")]
+        public IHttpActionResult GetMedicineListByGmail(string gmail )
+        {
+            return Ok(medicineDal.GetMedicineListByGmail(gmail)); 
+        }
+
+        //שליפת תרופה לפי קוד
+        [HttpGet]
             [Route("GetMedicineById/{idMedicine}")]
             public IHttpActionResult GetMedicineById(int idMedicine)
             {

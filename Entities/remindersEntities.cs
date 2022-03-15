@@ -13,6 +13,8 @@ namespace Entities
         public Nullable<short> idDetail { get; set; }
         public Nullable<System.DateTime> dateTake { get; set; }
         public Nullable<System.DateTime> hourTake { get; set; }
+        public string gmail { get; set; }
+
 
         //המרה מאוביקט מסוג מסד נתונים לאובייקט מסוג אנטיטיז
         public static remindersEntities convertToEntities(REMINDERStbl r)
@@ -22,8 +24,8 @@ namespace Entities
                 id = r.ID,
                 idDetail = r.IDDETAIL,
                 dateTake = r.DATETAKE,
-                hourTake = r.HOURTAKE
-
+                hourTake = r.HOURTAKE,
+                gmail = r.GMAIL
             };
         }
         //המרה מסוג אנטיטיז לסוג מסד נתונים
@@ -34,8 +36,8 @@ namespace Entities
                 ID = r.id,
                 IDDETAIL = r.idDetail,
                 DATETAKE = r.dateTake,
-                HOURTAKE = r.hourTake
-
+                HOURTAKE = r.hourTake,
+                GMAIL = r.gmail
             };
         }
         //המרה מסוג קשימת מסד נתונים לסוג רשמית אנטיטיז

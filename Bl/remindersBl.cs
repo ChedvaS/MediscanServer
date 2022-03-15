@@ -26,5 +26,22 @@ namespace Bl
         {
             remindersDal.AddReminders(remindersEntities.ConvertToDb(r));
         }
+        //   מחיקת תיזכורות לפי 
+      
+        public static void deleteReminderDetails(int id)
+        {
+            reminderdetailsDal.delete(id);
+        }
+
+        
+        //שליפת רשמית תזכורות לפי מייל
+       public static List<remindersEntities> GetReminderByGmail(string gmail)
+        {
+            var listr = remindersDal.Getall().Where(x => x.GMAIL == gmail).ToList();
+
+            if (listr!=null)
+            return remindersEntities.ConvertToListEntities(listr);
+            return null;
+        }
     }
 }

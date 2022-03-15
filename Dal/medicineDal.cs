@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-  public  class medicineDal
+    public class medicineDal
     {
         static MedicineProjectEntities db = new MedicineProjectEntities();
 
@@ -31,10 +31,27 @@ namespace Dal
         public static void update(MEDICINEtbl m)
         {
             db.MEDICINEtbl.FirstOrDefault(x => x.ID == m.ID).NAMEMEDICINE = m.NAMEMEDICINE;
-            db.MEDICINEtbl.FirstOrDefault(x => x.ID == m.ID).USERNAME = m.USERNAME;      
+            db.MEDICINEtbl.FirstOrDefault(x => x.ID == m.ID).USERNAME = m.USERNAME;
             db.SaveChanges();
         }
+        //שליפה לפי מייל
+        public static List<ListMedicine> GetMedicineListByGmail(string gmail)
+        {
+            List<ListMedicine> listMedi = new List<ListMedicine>();
+           var listM1 = db.MEDICINESTOCKtbl.Where(x => x.MEDICINEtbl.USERNAME == gmail).Select(x => new { namemed = x.MEDICINEtbl.NAMEMEDICINE, expirydate = x.EXPIRYDATE, insertdate = x.INSERTDATE });
+            foreach (var item in listM1)
+            {
+                listMedi.Add(new ListMedicine { NameMedicine = item.namemed, ExpiryDate = item.expirydate, InserDate = item.insertdate });
+            }
+            return listMedi;
+        }
 
-       
     }
+    public class ListMedicine
+    {
+        public string NameMedicine { get; set; }
+        public Nullable<System.DateTime> ExpiryDate  { get; set; }
+        public Nullable<System.DateTime> InserDate { get; set; }
+    }
+
 }

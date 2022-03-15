@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Bl;
+using Dal;
 using Entities;
 
 namespace MediscanBackend.Controllers
@@ -80,6 +81,14 @@ namespace MediscanBackend.Controllers
                     return Ok(false);
                 }
             }
-        
+
+        //שליפת פירוט לקיחה לפי מייל
+
+        [HttpGet]
+        [Route("GetTakingDetailsByGmail/{gmail}/1")]
+        public IHttpActionResult GetTakingDetailsByGmail(string gmail)
+        {
+            return Ok(reminderdetailsDal.GetTakingDetailsByGmail(gmail));
+        }
     }
 }

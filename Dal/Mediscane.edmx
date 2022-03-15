@@ -44,6 +44,7 @@
           <Property Name="IDDETAIL" Type="smallint" />
           <Property Name="DATETAKE" Type="datetime" />
           <Property Name="HOURTAKE" Type="datetime" />
+          <Property Name="GMAIL" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -111,6 +112,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_REMINDERStbl_USERStbl">
+          <End Role="USERStbl" Type="Self.USERStbl" Multiplicity="1" />
+          <End Role="REMINDERStbl" Type="Self.REMINDERStbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERStbl">
+              <PropertyRef Name="GMAIL" />
+            </Principal>
+            <Dependent Role="REMINDERStbl">
+              <PropertyRef Name="GMAIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MedicineProjectModelStoreContainer">
           <EntitySet Name="MEDICINESTOCKtbl" EntityType="Self.MEDICINESTOCKtbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEDICINEtbl" EntityType="Self.MEDICINEtbl" Schema="dbo" store:Type="Tables" />
@@ -132,6 +145,10 @@
           </AssociationSet>
           <AssociationSet Name="FK__REMINDERS__IDDET__37A5467C" Association="Self.FK__REMINDERS__IDDET__37A5467C">
             <End Role="REMINDERDETAILStbl" EntitySet="REMINDERDETAILStbl" />
+            <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_REMINDERStbl_USERStbl" Association="Self.FK_REMINDERStbl_USERStbl">
+            <End Role="USERStbl" EntitySet="USERStbl" />
             <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
           </AssociationSet>
         </EntityContainer>
@@ -185,6 +202,8 @@
           <Property Name="DATETAKE" Type="DateTime" Precision="3" />
           <Property Name="HOURTAKE" Type="DateTime" Precision="3" />
           <NavigationProperty Name="REMINDERDETAILStbl" Relationship="Self.FK__REMINDERS__IDDET__37A5467C" FromRole="REMINDERStbl" ToRole="REMINDERDETAILStbl" />
+          <Property Name="GMAIL" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="USERStbl" Relationship="MedicineProjectModel.FK_REMINDERStbl_USERStbl" FromRole="REMINDERStbl" ToRole="USERStbl" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -204,6 +223,7 @@
           <Property Name="FNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PASS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MEDICINEtbl" Relationship="Self.FK__MEDICINEt__USERN__2C3393D0" FromRole="USERStbl" ToRole="MEDICINEtbl" />
+          <NavigationProperty Name="REMINDERStbl" Relationship="MedicineProjectModel.FK_REMINDERStbl_USERStbl" FromRole="USERStbl" ToRole="REMINDERStbl" />
         </EntityType>
         <Association Name="FK__MEDICINES__IDMED__2F10007B">
           <End Role="MEDICINEtbl" Type="Self.MEDICINEtbl" Multiplicity="0..1" />
@@ -276,7 +296,23 @@
             <End Role="REMINDERDETAILStbl" EntitySet="REMINDERDETAILStbl" />
             <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
           </AssociationSet>
+          <AssociationSet Name="FK_REMINDERStbl_USERStbl" Association="MedicineProjectModel.FK_REMINDERStbl_USERStbl">
+            <End Role="USERStbl" EntitySet="USERStbl" />
+            <End Role="REMINDERStbl" EntitySet="REMINDERStbl" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_REMINDERStbl_USERStbl">
+          <End Type="MedicineProjectModel.USERStbl" Role="USERStbl" Multiplicity="1" />
+          <End Type="MedicineProjectModel.REMINDERStbl" Role="REMINDERStbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERStbl">
+              <PropertyRef Name="GMAIL" />
+            </Principal>
+            <Dependent Role="REMINDERStbl">
+              <PropertyRef Name="GMAIL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -320,6 +356,7 @@
           <EntitySetMapping Name="REMINDERStbl">
             <EntityTypeMapping TypeName="MedicineProjectModel.REMINDERStbl">
               <MappingFragment StoreEntitySet="REMINDERStbl">
+                <ScalarProperty Name="GMAIL" ColumnName="GMAIL" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="IDDETAIL" ColumnName="IDDETAIL" />
                 <ScalarProperty Name="DATETAKE" ColumnName="DATETAKE" />

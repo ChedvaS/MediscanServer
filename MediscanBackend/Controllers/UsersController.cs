@@ -13,22 +13,31 @@ namespace MediscanBackend.Controllers
     [RoutePrefix("api/user")]
     public class UsersController : ApiController
     {
-            //הוספה לרשימה
-            [HttpPut]
-            [Route("addUser")]
-            public IHttpActionResult addReminderDetails(useresEntities userentities)
+        //הוספה לרשימה
+        [HttpPut]
+        [Route("addUser")]
+        public IHttpActionResult addReminderDetails(useresEntities userentities)
+        {
+            try
             {
-                try
-                {
-                    usersBl.addUser(userentities);
-                    return Ok(true);
+                usersBl.addUser(userentities);
+                return Ok(true);
 
-                }
-                catch
-                {
-                    return Ok(false);
-                }
             }
-
+            catch (Exception e)
+            {
+                return Ok(false);
+            }
         }
+
+        //שליפת לקוח לפי קוד
+        [HttpGet]
+        [Route("GetUserById/{gmail}/1")]
+        public IHttpActionResult GetUserById(string gmail)
+        {
+            return Ok(usersBl.GetUserById(gmail));
+        }
+
+
+    }
 }

@@ -18,6 +18,7 @@ namespace Dal
         public USERStbl()
         {
             this.MEDICINEtbl = new HashSet<MEDICINEtbl>();
+            this.REMINDERStbl = new HashSet<REMINDERStbl>();
         }
     
         public string GMAIL { get; set; }
@@ -26,5 +27,7 @@ namespace Dal
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MEDICINEtbl> MEDICINEtbl { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REMINDERStbl> REMINDERStbl { get; set; }
     }
 }

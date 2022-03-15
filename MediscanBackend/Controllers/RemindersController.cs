@@ -1,4 +1,5 @@
 ﻿using Bl;
+using Dal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,26 @@ namespace MediscanBackend.App_Start
         {
             return Ok(remindersBl.GetReminderById(idReminders));
         }
+
+        
+        //שליפת פרטי תיזכורת לפי מייל
+        [HttpGet]
+        [Route("GetReminderByGmail/{gmail}/1")]
+        public IHttpActionResult GetReminderByGmail(string gmail)
+        {
+            return Ok(remindersBl.GetReminderByGmail(gmail));
+        }
+        
+
+        //שליפת תיזכורות פעילות לפי מייל  
+        [HttpGet]
+        [Route("GetActivityRemindersByGmail/{gmail}/1")]
+        public IHttpActionResult GetActivityRemindersByGmail(string gmail)
+        {
+            return Ok(remindersDal.GetActivityRemindersByGmail(gmail));
+        }
+
+
 
     }
 }

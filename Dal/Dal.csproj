@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="activityReminders.cs" />
     <Compile Include="medicineDal.cs" />
     <Compile Include="medicinestockDal.cs" />
     <Compile Include="MEDICINESTOCKtbl.cs">
@@ -86,6 +86,7 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>Mediscane.tt</DependentUpon>
     </Compile>
+    <Compile Include="TakingDetails.cs" />
     <Compile Include="usersDal.cs" />
     <Compile Include="USERStbl.cs">
       <DependentUpon>Mediscane.tt</DependentUpon>
