@@ -29,6 +29,11 @@ namespace Bl
             return medicinestockEntities.convertToEntities(medicinestockDal.Getall().FirstOrDefault(x => x.ID==idMedicine));
         }
 
+        //עדכון תרופות ברשימה
+        public static void updateMedicine(medicinestockEntities m)
+        {
+            Dal.medicinestockDal.update(medicinestockEntities.ConvertToDb(m));
+        }
 
     }
 }

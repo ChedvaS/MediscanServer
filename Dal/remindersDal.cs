@@ -14,6 +14,14 @@ namespace Dal
         public static List<REMINDERStbl> Getall()
         {
             return db.REMINDERStbl.ToList();
+            //try {
+
+            //    return db.REMINDERStbl.ToList();
+            //  }
+            //catch
+            //{
+            //   return Console.;
+            //}
         }
         //הוספה
         public static void AddReminders(REMINDERStbl r)
