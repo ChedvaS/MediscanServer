@@ -54,6 +54,7 @@ namespace Bl
         {
             var Ocr = new IronTesseract();
             Ocr.Language = OcrLanguage.Hebrew;
+            Ocr.Configuration.EngineMode = IronOcr.TesseractEngineMode.TesseractOnly;
             Ocr.AddSecondaryLanguage(OcrLanguage.English);
             IronOcr.OcrResult.Line [] listText;
             string TextFromImg;

@@ -10,6 +10,6 @@ namespace Dal
     {
         public string MedicineName { get; set; }
         public short LeftDays { get; set; }
-        public Nullable<System.DateTime>  NextTakingTime { get; set; }
+        public List<Nullable<System.DateTime>>  TakingTimes { get; set; }
     }
 }
