@@ -13,15 +13,16 @@ namespace Dal
         //שליפה
         public static List<REMINDERStbl> Getall()
         {
-            return db.REMINDERStbl.ToList();
-            //try {
-
-            //    return db.REMINDERStbl.ToList();
-            //  }
-            //catch
-            //{
-            //   return Console.;
-            //}
+           
+            try
+            {
+                var l = db.REMINDERStbl.ToList();
+                return l;
+            }
+            catch
+            {
+                return null;
+            }
         }
         //הוספה
         public static void AddReminders(REMINDERStbl r)
@@ -49,7 +50,7 @@ namespace Dal
         public static List<activityReminders> GetActivityRemindersByGmail(string gmail)
         {
             List<activityReminders> listActive = new List<activityReminders>();
-            var lista = db.REMINDERStbl.Where(x => x.GMAIL == gmail).Select(x => new { namemedicine = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.NAMEMEDICINE, startDate = x.REMINDERDETAILStbl.STARTDATE, numDays = x.REMINDERDETAILStbl.AMOUNTDAYS, hourTake = x.HOURTAKE }).ToList();
+            var lista = db.REMINDERStbl.Where(x => x.GMAIL == gmail).Select(x => new { namemedicine = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.NAMEMEDICINE, startDate = x.REMINDERDETAILStbl.STARTDATE, numDays = x.REMINDERDETAILStbl.AMOUNTDAYS, hourTake = x.HOURTAKE,frequincy=x.REMINDERDETAILStbl.FREQUINCY,comment=x.REMINDERDETAILStbl.COMMENT }).ToList();
             foreach (var item in lista)
             {
                 double nDays = double.Parse(item.numDays.ToString());
@@ -58,7 +59,8 @@ namespace Dal
                 {
                     var result = listActive.FirstOrDefault(x => x.MedicineName == item.namemedicine);
                     if (result == null)
-                        listActive.Add(new activityReminders { LeftDays = short.Parse(LeftD.ToString()), MedicineName = item.namemedicine, TakingTimes = new List<DateTime?>() { item.hourTake } });
+                        listActive.Add(new activityReminders { LeftDays = short.Parse(LeftD.ToString()), MedicineName = item.namemedicine 
+                             , TakingTimes = new List<DateTime?>() { item.hourTake }, comment=item.comment, frequincy=item.frequincy });
                     else
                         result.TakingTimes.Add(item.hourTake);
                 }

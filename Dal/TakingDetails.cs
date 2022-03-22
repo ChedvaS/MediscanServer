@@ -9,12 +9,14 @@ namespace Dal
   public  class TakingDetails
     {
 
+
         public string MedicineName { get; set; }
         public string NamePatient { get; set; }
         public short frequincy { get; set; }
-        public short LeftDays { get; set; }
+
         public string comment { get; set; }
 
+        public short LeftDays { get; set; }
 
     }
 }

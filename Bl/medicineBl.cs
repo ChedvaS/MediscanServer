@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IronOcr;
 using Microsoft.Recognizers.Text.Number;
+using System.Diagnostics;
 
 namespace Bl
 {
@@ -74,102 +75,151 @@ namespace Bl
             //יצירת מילון לשמירת המפתחות של כל טבלא
             Dictionary<string, short> DicOfIdTables = new Dictionary<string, short>();
             //[]TextFromImg -הוא מערך המכיל את נתוני התמונה כל מקום מכיל שורה של התמונה
-            //שם המבוטח
-            string namePatient = TextFromImg[0].Text;//שורה ראשונה מכילה בתוכה את שם המבוטח
-            List<string> ListOfWords = namePatient.Split(' ').ToList();//הפיכת השורה לרשימה 
-            foreach (var word in ListOfWords.ToList())
+            short idmedicine=0;
+            string namemedicine = "";
+            string namePatient = "";
+            string commentt = "";
+            short AmountInDay = 0;
+            DateTime DateInsert = new DateTime();
+            short idreminderdetail = 0;
+            try
             {
-                if (word.Any(char.IsDigit))
-                    ListOfWords.Remove(word);
-                else
-                    if (word.Any(x => x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z'))
-                    ListOfWords.Remove(word);
-                else
-                    if (word.Contains("מבוטח"))
-                    ListOfWords.Remove(word);
-            }
-            namePatient = ListOfWords[0] + " " + ListOfWords[1];
-
-            //שם תרופה
-            string namemedicine = TextFromImg[1].Text;
-            //מינון
-            string LineOfDosage = TextFromImg[2].Text; ;
-            List<int> ListOfNum = ExtractNumFromString(LineOfDosage);
-            int dosage = ListOfNum[0];
-            //מספר פעמים ביום
-            short AmountInDay = Convert.ToInt16(ListOfNum[1]);
-            //מספר ימים
-            short NumOfDays = Convert.ToInt16(ListOfNum[2]);
-            // לעשות בדיקה על התאריך- תאריך
-            string DateLine = TextFromImg[6].Text;
-            List<int> ListOfDatePart = ExtractNumFromString(DateLine);
-            DateTime DateInsert = new DateTime(ListOfDatePart[2] + 2000, ListOfDatePart[1], ListOfDatePart[0], 8, 0, 0);
-
-            //הכנסת הנתונים שהתקבלו מן הסריקה לדתה בייס
-            //הערות לאופן לקיחת התרופה
-            string commentt = TextFromImg[3].Text;
-            //הכנסת תרופה
-            medicineEntities md = new medicineEntities()
-            {
-                nameMedicine = namemedicine,
-                userName = email
-            };
-          
-            //בדיקה האם המשתמש קיים עם אותה התרופה
-            var medicineEntities = GetMedicineList().FirstOrDefault(x => x.nameMedicine == md.nameMedicine && x.userName == md.userName);
-            short idmedicine;
-            if (medicineEntities == null)//אם לא קיים מוסיף חדש
-            {
-                addMedicine(md);//הכנסת התרופה לדתה בייס  
-                idmedicine = GetMedicineList().Last().id;
-            }
-            else//אם קיים לוקח את קוד התרופה הישן ושם אותו במה שנכנס
-                idmedicine = medicineEntities.id;
-            //מוסיף למילון את מפתח של התרופה
-            DicOfIdTables.Add("idMedicne", idmedicine);
-            //הכנסה לטבלת מלאי תרופות 
-            medicinestockEntities mds = new medicinestockEntities()
-            {
-                idMedicne = idmedicine,
-                insertDate = DateTime.Today
-            };
-            medicinestockBl.addMedicinestock(mds);
-            //מוסיף למילון את מפתח של מלאי תרופות
-            DicOfIdTables.Add("idMedicneStock", medicinestockBl.GetMedicineSList().Last().id);
-            //הכנסה לטבלת פרטי תיזכורת
-            reminderdetailsEntities rd = new reminderdetailsEntities()
-            {
-                idMedicineStock = medicinestockBl.GetMedicineSList().Last().id,
-                subjectGmail = $"היי {namePatient} עלייך לקחת את התרופה: {namemedicine}",
-                comment = commentt,
-                amountDays = NumOfDays,
-                frequincy = AmountInDay,
-                dosage = dosage.ToString(),
-                startDate = DateInsert
-            };
-            reminderdetailsBl.addReminderDetails(rd);
-            short idreminderdetail = reminderdetailsBl.GetReminderDetailsList().Last().id;
-            //מוסיף למילון את מפתח של פרטי תיזכורות
-            DicOfIdTables.Add("Idreminderdetails", idreminderdetail);
-            //יצירת כמות תיזכורות בהתאם לנתונים
-            int IaddHours = 0;//משתנה להוספת שעות 
-           
-            for (int i = 0; i < AmountInDay; i++)
-            {
-                remindersEntities r = new remindersEntities()
+                //שם המבוטח
+                namePatient = TextFromImg[0].Text;//שורה ראשונה מכילה בתוכה את שם המבוטח
+                List<string> ListOfWords = namePatient.Split(' ').ToList();//הפיכת השורה לרשימה 
+                foreach (var word in ListOfWords.ToList())
                 {
-                    idDetail = idreminderdetail,
-                    dateTake = DateInsert,
-                    hourTake = DateInsert.AddHours(IaddHours),
-                    gmail = email
-                };
-                remindersBl.addReminder(r);
-
-                //מוסיף למילון את מפתח של תיזכורות
-                DicOfIdTables.Add("Idreminder"+i+1,remindersBl.GetReminderList().Last().id);
-                IaddHours += 24 / AmountInDay;
+                    if (word.Any(char.IsDigit))
+                        ListOfWords.Remove(word);
+                    else
+                        if (word.Any(x => x >= 'a' && x <= 'z' || x >= 'A' && x <= 'Z'))
+                        ListOfWords.Remove(word);
+                    else
+                        if (word.Contains("מבוטח"))
+                        ListOfWords.Remove(word);
+                }
+                namePatient = ListOfWords[0] + " " + ListOfWords[1];
             }
 
+            catch (Exception exce)
+            {
+                Debug.WriteLine(exce.Message);
+            }
+            finally
+            {
+                try
+                {
+                    //שם תרופה
+                    namemedicine = TextFromImg[1].Text;
+                    //הכנסת הנתונים שהתקבלו מן הסריקה לדתה בייס
+                    //הערות לאופן לקיחת התרופה
+                    commentt = TextFromImg[3].Text;
+                    //הכנסת תרופה
+                    medicineEntities md = new medicineEntities()
+                    {
+                        nameMedicine = namemedicine,
+                        userName = email
+                    };
+                    //בדיקה האם המשתמש קיים עם אותה התרופה
+                    var medicineEntities = GetMedicineList().FirstOrDefault(x => x.nameMedicine == md.nameMedicine && x.userName == md.userName);
+
+                    if (medicineEntities == null)//אם לא קיים מוסיף חדש
+                    {
+                        addMedicine(md);//הכנסת התרופה לדתה בייס  
+                        idmedicine = GetMedicineList().Last().id;
+                    }
+                    else//אם קיים לוקח את קוד התרופה הישן ושם אותו במה שנכנס
+                        idmedicine = medicineEntities.id;
+                    //מוסיף למילון את מפתח של התרופה
+                    DicOfIdTables.Add("idMedicne", idmedicine);
+                }
+                catch (Exception exe)
+                {
+                    Debug.WriteLine(exe.Message);
+                }
+
+                finally
+                {
+
+                    try
+                    {
+                        //הכנסה לטבלת מלאי תרופות 
+                        medicinestockEntities mds = new medicinestockEntities()
+                        {
+                            idMedicne = idmedicine,
+                            insertDate = DateTime.Today
+                        };
+                        medicinestockBl.addMedicinestock(mds);
+                        //מוסיף למילון את מפתח של מלאי תרופות
+                        DicOfIdTables.Add("idMedicneStock", medicinestockBl.GetMedicineSList().Last().id);
+
+                    }
+
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            //מינון
+                            string LineOfDosage = TextFromImg[2].Text; ;
+                            List<int> ListOfNum = ExtractNumFromString(LineOfDosage);
+                            int dosage = ListOfNum[0];
+                            //מספר פעמים ביום
+                            AmountInDay = Convert.ToInt16(ListOfNum[1]);
+                            //מספר ימים
+                            short NumOfDays = Convert.ToInt16(ListOfNum[2]);
+                            // לעשות בדיקה על התאריך- תאריך
+                            string DateLine = TextFromImg[6].Text;
+                            List<int> ListOfDatePart = ExtractNumFromString(DateLine);
+                            DateInsert = new DateTime(ListOfDatePart[2] + 2000, ListOfDatePart[1], ListOfDatePart[0], 8, 0, 0);
+
+                            //הכנסה לטבלת פרטי תיזכורת
+                            reminderdetailsEntities rd = new reminderdetailsEntities()
+                            {
+                                idMedicineStock = medicinestockBl.GetMedicineSList().Last().id,
+                                subjectGmail = $"היי {namePatient} עלייך לקחת את התרופה: {namemedicine}",
+                                comment = commentt,
+                                amountDays = NumOfDays,
+                                frequincy = AmountInDay,
+                                dosage = dosage.ToString(),
+                                startDate = DateInsert
+                            };
+                            reminderdetailsBl.addReminderDetails(rd);
+                            idreminderdetail = reminderdetailsBl.GetReminderDetailsList().Last().id;
+                            //מוסיף למילון את מפתח של פרטי תיזכורות
+                            DicOfIdTables.Add("Idreminderdetails", idreminderdetail);
+                        }
+                        catch (Exception ex) { Debug.WriteLine(ex.Message); }
+                        finally
+                        {
+
+                            //יצירת כמות תיזכורות בהתאם לנתונים
+                            int IaddHours = 0;//משתנה להוספת שעות 
+
+                            for (int i = 0; i < AmountInDay; i++)
+                            {
+                                remindersEntities r = new remindersEntities()
+                                {
+                                    idDetail = idreminderdetail,
+                                    dateTake = DateInsert,
+                                    hourTake = DateInsert.AddHours(IaddHours),
+                                    gmail = email
+                                };
+                                remindersBl.addReminder(r);
+
+                                //מוסיף למילון את מפתח של תיזכורות
+                                DicOfIdTables.Add("Idreminder" + i + 1, remindersBl.GetReminderList().Last().id);
+                                IaddHours += 24 / AmountInDay;
+                            }
+                        }
+
+                    }
+
+                }
+            }
             return DicOfIdTables;
         }
         //פונקציה לחילוץ מספרים מתוך מחרוזת 

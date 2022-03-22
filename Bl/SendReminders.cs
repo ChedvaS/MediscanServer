@@ -47,8 +47,8 @@ namespace Bl
                 foreach (REMINDERStbl rEMINDERStbl in reminderDetails.REMINDERStbl)
                 {
                     // Trigger the job to every day on the time the user had entered
-                    //currentReminder.HOURTAKE.Value.Hour, currentReminder.HOURTAKE.Value.Minute
-                    trigger = TriggerBuilder.Create().WithIdentity($"triggerFor{rEMINDERStbl.IDDETAIL}", $"{rEMINDERStbl.IDDETAIL}").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(11,15)).ForJob(job).Build();
+                    
+                    trigger = TriggerBuilder.Create().WithIdentity($"triggerFor{rEMINDERStbl.IDDETAIL}", $"{rEMINDERStbl.IDDETAIL}").WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(currentReminder.HOURTAKE.Value.Hour, currentReminder.HOURTAKE.Value.Minute)).ForJob(job).Build();
                     l_triggers.Add(trigger);
                 }
 

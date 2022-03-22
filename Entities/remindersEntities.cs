@@ -19,6 +19,7 @@ namespace Entities
         //המרה מאוביקט מסוג מסד נתונים לאובייקט מסוג אנטיטיז
         public static remindersEntities convertToEntities(REMINDERStbl r)
         {
+            if(r!=null)
             return new remindersEntities()
             {
                 id = r.ID,
@@ -27,10 +28,12 @@ namespace Entities
                 hourTake = r.HOURTAKE,
                 gmail = r.GMAIL
             };
+            return null;
         }
         //המרה מסוג אנטיטיז לסוג מסד נתונים
         public static REMINDERStbl ConvertToDb(remindersEntities r)
         {
+            if (r!=null)
             return new REMINDERStbl()
             {
                 ID = r.id,
@@ -39,6 +42,7 @@ namespace Entities
                 HOURTAKE = r.hourTake,
                 GMAIL = r.gmail
             };
+            return null;
         }
         //המרה מסוג קשימת מסד נתונים לסוג רשמית אנטיטיז
         public static List<remindersEntities> ConvertToListEntities(List<REMINDERStbl> lr)
