@@ -35,9 +35,9 @@ namespace Bl
         }
 
         //הסרת פרטי תזכורת מהרשימה
-        public static void deleteReminderDetails(int id)
+        public static bool deleteReminderDetails(int id)
         {
-            reminderdetailsDal.delete(id);
+            return reminderdetailsDal.delete(id);
         }
     }
 }

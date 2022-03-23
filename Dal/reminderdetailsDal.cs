@@ -22,10 +22,22 @@ namespace Dal
             db.SaveChanges();
         }
         //מחיקה
-        public static void delete(int id)
+        public static bool delete(int id)
         {
-            db.REMINDERDETAILStbl.Remove(db.REMINDERDETAILStbl.FirstOrDefault(k => k.ID == id));
-            db.SaveChanges();
+            var reminderDetailsForDeleting = db.REMINDERDETAILStbl.FirstOrDefault(k => k.ID == id);
+            //מחיקה של התזכורות המקושרות לפרטי תזכורת זו
+            if (reminderDetailsForDeleting != null)
+            {
+                foreach (var reminding in reminderDetailsForDeleting.REMINDERStbl)
+                {
+                    remindersDal.delete(reminding.ID);
+                }
+                db.REMINDERDETAILStbl.Remove(reminderDetailsForDeleting);
+                db.SaveChanges();
+                return true;
+            }
+            else
+                return false;
         }
         //עידכון
         public static void update(REMINDERDETAILStbl r)

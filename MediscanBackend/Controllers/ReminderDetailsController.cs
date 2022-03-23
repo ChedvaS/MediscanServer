@@ -72,8 +72,8 @@ namespace MediscanBackend.Controllers
             {
                 try
                 {
-                    reminderdetailsBl.deleteReminderDetails(id);
-                    return Ok(true);
+                    bool result = reminderdetailsBl.deleteReminderDetails(id);
+                    return Ok(result);
 
                 }
                 catch
