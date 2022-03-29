@@ -19,7 +19,10 @@ namespace Bl
         //שליפת  תזכורת לפי קוד
         public static remindersEntities GetReminderById(int idr)
         {
-            return remindersEntities.convertToEntities(remindersDal.Getall().FirstOrDefault(x => x.ID == idr));
+            var reminders = remindersDal.Getall();
+            if (reminders != null)
+                return remindersEntities.convertToEntities(reminders.FirstOrDefault(x => x.ID == idr));
+            return null;
         }
         //הוספה  תזכורת לרשימה
         public static void addReminder(remindersEntities r)
@@ -27,20 +30,20 @@ namespace Bl
             remindersDal.AddReminders(remindersEntities.ConvertToDb(r));
         }
         //   מחיקת תיזכורות לפי 
-      
+
         public static void deleteReminderDetails(int id)
         {
             reminderdetailsDal.delete(id);
         }
 
-        
+
         //שליפת רשמית תזכורות לפי מייל
-       public static List<remindersEntities> GetReminderByGmail(string gmail)
+        public static List<remindersEntities> GetReminderByGmail(string gmail)
         {
             var listr = remindersDal.Getall().Where(x => x.GMAIL == gmail).ToList();
 
-            if (listr!=null)
-            return remindersEntities.ConvertToListEntities(listr);
+            if (listr != null)
+                return remindersEntities.ConvertToListEntities(listr);
             return null;
         }
     }

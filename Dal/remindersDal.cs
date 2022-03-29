@@ -13,7 +13,7 @@ namespace Dal
         //שליפה
         public static List<REMINDERStbl> Getall()
         {
-           
+
             try
             {
                 var l = db.REMINDERStbl.ToList();
@@ -50,19 +50,34 @@ namespace Dal
         public static List<activityReminders> GetActivityRemindersByGmail(string gmail)
         {
             List<activityReminders> listActive = new List<activityReminders>();
-            var lista = db.REMINDERStbl.Where(x => x.GMAIL == gmail).Select(x => new { namemedicine = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.NAMEMEDICINE, startDate = x.REMINDERDETAILStbl.STARTDATE, numDays = x.REMINDERDETAILStbl.AMOUNTDAYS, hourTake = x.HOURTAKE,frequincy=x.REMINDERDETAILStbl.FREQUINCY,comment=x.REMINDERDETAILStbl.COMMENT }).ToList();
+            var lista = db.REMINDERStbl.Where(x => x.GMAIL == gmail).Select(x => new { id = x.ID, medicineId = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.ID, reminderDId = x.IDDETAIL, namemedicine = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.NAMEMEDICINE, startDate = x.REMINDERDETAILStbl.STARTDATE, numDays = x.REMINDERDETAILStbl.AMOUNTDAYS, hourTake = x.HOURTAKE, frequincy = x.REMINDERDETAILStbl.FREQUINCY, comment = x.REMINDERDETAILStbl.COMMENT }).ToList();
             foreach (var item in lista)
             {
+                int LeftD = 0;
                 double nDays = double.Parse(item.numDays.ToString());
-                int LeftD = (item.startDate.Value.AddDays(nDays) - DateTime.Today).Days;
+                if(item.startDate!=null)
+                 LeftD = (item.startDate.Value.AddDays(nDays) - DateTime.Today).Days;
                 if (LeftD > 0)
                 {
-                    var result = listActive.FirstOrDefault(x => x.MedicineName == item.namemedicine);
+                    var result = listActive.FirstOrDefault(x => x.reminderDId == item.reminderDId);
                     if (result == null)
-                        listActive.Add(new activityReminders { LeftDays = short.Parse(LeftD.ToString()), MedicineName = item.namemedicine 
-                             , TakingTimes = new List<DateTime?>() { item.hourTake }, comment=item.comment, frequincy=item.frequincy });
+                    {
+                        listActive.Add(new activityReminders
+                        {
+                            MedicineId = item.medicineId,
+                            reminderDId = item.reminderDId,
+                            LeftDays = short.Parse(LeftD.ToString()),
+                            MedicineName = item.namemedicine
+                             ,
+                            TakingTimes = new Dictionary<int, DateTime?>(),
+                            comment = item.comment,
+                            frequincy = item.frequincy
+                        });
+                        var last = listActive.LastOrDefault();
+                        last.TakingTimes.Add(item.id, item.hourTake);
+                    }
                     else
-                        result.TakingTimes.Add(item.hourTake);
+                        result.TakingTimes.Add(item.id, item.hourTake);
                 }
             }
             return listActive;
