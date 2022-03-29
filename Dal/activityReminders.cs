@@ -14,7 +14,9 @@ namespace Dal
         public Nullable<short> reminderDId { get; set; }
         public string MedicineName { get; set; }
         public short LeftDays { get; set; }
-        public List<Nullable<System.DateTime>>  TakingTimes { get; set; }
+        public short MedicineId { get; set; }
+        public Nullable<short> reminderDId { get; set; }  
+        public Dictionary<int,Nullable<System.DateTime>>  TakingTimes { get; set; }
         public  Nullable<short> frequincy { get; set; }
 
         public string comment { get; set; }
