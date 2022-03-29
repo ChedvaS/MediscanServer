@@ -16,6 +16,7 @@ namespace Bl
             return remindersEntities.ConvertToListEntities(remindersDal.Getall());
         }
 
+
         //שליפת  תזכורת לפי קוד
         public static remindersEntities GetReminderById(int idr)
         {
