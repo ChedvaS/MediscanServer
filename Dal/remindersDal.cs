@@ -16,13 +16,10 @@ namespace Dal
 
             try
             {
-                if (db.REMINDERStbl.ToList() != null) 
-                {
-                    var l = db.REMINDERStbl.ToList();
-                    return l; 
-                }
+                var l = db.REMINDERStbl;
+                if (l != null)
+                    return l.ToList();
                 return null;
-            
             }
             catch
             {
@@ -44,10 +41,11 @@ namespace Dal
         //עידכון
         public static void update(REMINDERStbl r)
         {
-            db.REMINDERStbl.FirstOrDefault(x => x.ID == r.ID).IDDETAIL = r.IDDETAIL;
-            db.REMINDERStbl.FirstOrDefault(x => x.ID == r.ID).DATETAKE = r.DATETAKE;
-            db.REMINDERStbl.FirstOrDefault(x => x.ID == r.ID).HOURTAKE = r.HOURTAKE;
-            db.REMINDERStbl.FirstOrDefault(x => x.ID == r.ID).GMAIL = r.GMAIL;
+            var reminder = db.REMINDERStbl.FirstOrDefault(x => x.ID == r.ID);
+            reminder.IDDETAIL = r.IDDETAIL;
+            reminder.DATETAKE = r.DATETAKE;
+            reminder.HOURTAKE = r.HOURTAKE;
+            reminder.GMAIL = r.GMAIL;
 
             db.SaveChanges();
         }
@@ -59,9 +57,13 @@ namespace Dal
             foreach (var item in lista)
             {
                 int LeftD = 0;
+                DateTime followDate = DateTime.Today;
                 double nDays = double.Parse(item.numDays.ToString());
-                if(item.startDate!=null)
-                 LeftD = (item.startDate.Value.AddDays(nDays) - DateTime.Today).Days;
+                var today = DateTime.Today;
+                if (item.startDate != null)
+                    followDate = item.startDate.Value.AddDays(nDays);
+                if (item.startDate != null)
+                    LeftD = (followDate - today).Days;
                 if (LeftD > 0)
                 {
                     var result = listActive.FirstOrDefault(x => x.reminderDId == item.reminderDId);

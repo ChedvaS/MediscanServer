@@ -20,7 +20,7 @@ namespace MediscanBackend.App_Start
             return Ok(remindersBl.GetReminderById(idReminders));
         }
 
-        
+
         //שליפת פרטי תיזכורת לפי מייל
         [HttpGet]
         [Route("GetReminderByGmail/{gmail}/1")]
@@ -28,7 +28,7 @@ namespace MediscanBackend.App_Start
         {
             return Ok(remindersBl.GetReminderByGmail(gmail));
         }
-        
+
 
         //שליפת תיזכורות פעילות לפי מייל  
         [HttpGet]
@@ -37,8 +37,12 @@ namespace MediscanBackend.App_Start
         {
             return Ok(remindersDal.GetActivityRemindersByGmail(gmail));
         }
-
-
+        [HttpGet]
+        [Route("GetAllReminders")]
+        public IHttpActionResult GetAllReminders()
+        {
+            return Ok(remindersDal.Getall());
+        }
 
     }
 }

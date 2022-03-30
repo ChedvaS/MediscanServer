@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,73 +15,74 @@ namespace MediscanBackend.Controllers
     [RoutePrefix("api/reminderdatails")]
     public class ReminderDetailsController : ApiController
     {
-            //שליפת רשימת פרטי תזכורת
-            [HttpGet]
-            [Route("GetReminderDetailsList")]
-            public IHttpActionResult GetReminderDetailsList()
+        //שליפת רשימת פרטי תזכורת
+        [HttpGet]
+        [Route("GetReminderDetailsList")]
+        public IHttpActionResult GetReminderDetailsList()
+        {
+            return Ok(reminderdetailsBl.GetReminderDetailsList());
+        }
+
+        //שליפת פרטי תיזכורת לפי קוד
+        [HttpGet]
+        [Route("GetReminderDetailsById/{idReminderDetails}")]
+        public IHttpActionResult GetReminderDetails(int idReminderDetails)
+        {
+            return Ok(reminderdetailsBl.GetReminderDetailsById(idReminderDetails));
+        }
+
+        //הוספה לרשימה
+        [HttpPut]
+        [Route("addReminderDetails")]
+        public IHttpActionResult addReminderDetails(reminderdetailsEntities reminderdetails)
+        {
+            try
             {
-                return Ok(reminderdetailsBl.GetReminderDetailsList());
-            }
-
-            //שליפת פרטי תיזכורת לפי קוד
-            [HttpGet]
-            [Route("GetReminderDetailsById/{idReminderDetails}")]
-            public IHttpActionResult GetReminderDetails(int idReminderDetails)
-            {
-                return Ok(reminderdetailsBl.GetReminderDetailsById(idReminderDetails));
-            }
-
-            //הוספה לרשימה
-            [HttpPut]
-            [Route("addReminderDetails")]
-            public IHttpActionResult addReminderDetails(reminderdetailsEntities reminderdetails)
-            {
-                try
-                {
-                    reminderdetailsBl.addReminderDetails(reminderdetails);
-                    return Ok(true);
-
-                }
-                catch
-                {
-                    return Ok(false);
-                }
-            }
-
-            //עדכון פרטי תיזכורת ברשימה
-            [HttpPost]
-            [Route("updateReminderDetails")]
-            public IHttpActionResult updateReminderDetails(reminderdetailsEntities reminderdetails)
-            {
-                try
-                {
-                    reminderdetailsBl.updateReminderDetails(reminderdetails);
-                    return Ok(true);
-
-                }
-                catch
-                {
-                    return Ok(false);
-                }
+                var id = reminderdetailsBl.addReminderDetails(reminderdetails);
+                return Ok(id);
 
             }
-
-            //הסרת פרטי תיזכורת מהרשימה
-            [HttpDelete]
-            [Route("deleteReminderDetails/{id}")]
-            public IHttpActionResult deleteReminderDetails(int id)
+            catch
             {
-                try
-                {
-                    bool result = reminderdetailsBl.deleteReminderDetails(id);
-                    return Ok(result);
-
-                }
-                catch
-                {
-                    return Ok(false);
-                }
+                return Ok(0);
             }
+        }
+
+        //עדכון פרטי תיזכורת ברשימה
+        [HttpPost]
+        [Route("updateReminderDetails")]
+        public IHttpActionResult updateReminderDetails(reminderdetailsEntities reminderdetails)
+        {
+            try
+            {
+                reminderdetailsBl.updateReminderDetails(reminderdetails);
+                return Ok(true);
+
+            }
+            catch
+            {
+                return Ok(false);
+            }
+
+        }
+
+        //הסרת פרטי תיזכורת מהרשימה
+        [HttpDelete]
+        [Route("deleteReminderDetails/{id}")]
+        public IHttpActionResult deleteReminderDetails(int id)
+        {
+            try
+            {
+                bool result = reminderdetailsBl.deleteReminderDetails(id);
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return Ok(false);
+            }
+        }
 
         //שליפת פירוט לקיחה לפי מייל
 

@@ -23,9 +23,10 @@ namespace Bl
         }
 
         //הוספה פרטי תזכורת לרשימה
-        public static void addReminderDetails(reminderdetailsEntities r)
+        public static short addReminderDetails(reminderdetailsEntities r)
         {
-            reminderdetailsDal.AddReminderDetails(reminderdetailsEntities.ConvertToDb(r));
+            var result = reminderdetailsDal.AddReminderDetails(reminderdetailsEntities.ConvertToDb(r));
+            return result;
         }
 
         //עדכון פרטי תזכורת ברשימה

@@ -82,6 +82,7 @@ namespace Bl
             short AmountInDay = 0;
             DateTime DateInsert = new DateTime();
             short idreminderdetail = 0;
+            bool res=false;
             try
             {
                 //שם המבוטח
@@ -187,32 +188,36 @@ namespace Bl
                                 dosage = dosage.ToString(),
                                 startDate = DateInsert
                             };
-                            reminderdetailsBl.addReminderDetails(rd);
-                            idreminderdetail = reminderdetailsBl.GetReminderDetailsList().Last().id;
-                            //מוסיף למילון את מפתח של פרטי תיזכורות
-                            DicOfIdTables.Add("Idreminderdetails", idreminderdetail);
+                            idreminderdetail = reminderdetailsBl.addReminderDetails(rd);
+                            if (idreminderdetail!=0)
+                            {
+                                //מוסיף למילון את מפתח של פרטי תיזכורות
+                                DicOfIdTables.Add("Idreminderdetails", idreminderdetail);
+                            }
                         }
                         catch (Exception ex) { Debug.WriteLine(ex.Message); }
                         finally
                         {
-
-                            //יצירת כמות תיזכורות בהתאם לנתונים
-                            int IaddHours = 0;//משתנה להוספת שעות 
-
-                            for (int i = 0; i < AmountInDay; i++)
+                            if (idreminderdetail!=0)
                             {
-                                remindersEntities r = new remindersEntities()
-                                {
-                                    idDetail = idreminderdetail,
-                                    dateTake = DateInsert,
-                                    hourTake = DateInsert.AddHours(IaddHours),
-                                    gmail = email
-                                };
-                                remindersBl.addReminder(r);
+                                //יצירת כמות תיזכורות בהתאם לנתונים
+                                int IaddHours = 0;//משתנה להוספת שעות 
 
-                                //מוסיף למילון את מפתח של תיזכורות
-                                DicOfIdTables.Add("Idreminder" + i + 1, remindersBl.GetReminderList().Last().id);
-                                IaddHours += 24 / AmountInDay;
+                                for (int i = 0; i < AmountInDay; i++)
+                                {
+                                    remindersEntities r = new remindersEntities()
+                                    {
+                                        idDetail = idreminderdetail,
+                                        dateTake = DateInsert,
+                                        hourTake = DateInsert.AddHours(IaddHours),
+                                        gmail = email
+                                    };
+                                    remindersBl.addReminder(r);
+
+                                    //מוסיף למילון את מפתח של תיזכורות
+                                    DicOfIdTables.Add("Idreminder" + i + 1, remindersBl.GetReminderList().Last().id);
+                                    IaddHours += 24 / AmountInDay;
+                                }
                             }
                         }
 

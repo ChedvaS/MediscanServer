@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,10 +16,19 @@ namespace Dal
             return db.REMINDERDETAILStbl.ToList();
         }
         //הוספה
-        public static void AddReminderDetails(REMINDERDETAILStbl r)
+        public static short AddReminderDetails(REMINDERDETAILStbl r)
         {
-            db.REMINDERDETAILStbl.Add(r);
-            db.SaveChanges();
+            try
+            {
+                db.REMINDERDETAILStbl.Add(r);
+                db.SaveChanges();
+                return db.REMINDERDETAILStbl.Last().ID;
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+
         }
         //מחיקה
         public static bool delete(int id)
@@ -28,9 +37,10 @@ namespace Dal
             //מחיקה של התזכורות המקושרות לפרטי תזכורת זו
             if (reminderDetailsForDeleting != null)
             {
-                foreach (var reminding in reminderDetailsForDeleting.REMINDERStbl)
+                foreach (var reminding in db.REMINDERStbl)
                 {
-                    remindersDal.delete(reminding.ID);
+                    if (reminding.IDDETAIL == reminderDetailsForDeleting.ID)
+                        remindersDal.delete(reminding.ID);
                 }
                 db.REMINDERDETAILStbl.Remove(reminderDetailsForDeleting);
                 db.SaveChanges();
@@ -41,15 +51,16 @@ namespace Dal
         }
         //עידכון
         public static void update(REMINDERDETAILStbl r)
-        {      
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).IDMEDICINESTOCK = r.IDMEDICINESTOCK;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).SUBJECTGMAIL = r.SUBJECTGMAIL;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).COMMENT = r.COMMENT;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).AMOUNTDAYS = r.AMOUNTDAYS;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).FREQUINCY = r.FREQUINCY;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).DOSAGE = r.DOSAGE;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).STARTDATE = r.STARTDATE;
-            db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID).STATUSMEDICINE = r.STATUSMEDICINE;
+        {
+            var r_for_delete = db.REMINDERDETAILStbl.FirstOrDefault(x => x.ID == r.ID);
+            r_for_delete.IDMEDICINESTOCK = r.IDMEDICINESTOCK;
+            r_for_delete.SUBJECTGMAIL = r.SUBJECTGMAIL;
+            r_for_delete.COMMENT = r.COMMENT;
+            r_for_delete.AMOUNTDAYS = r.AMOUNTDAYS;
+            r_for_delete.FREQUINCY = r.FREQUINCY;
+            r_for_delete.DOSAGE = r.DOSAGE;
+            r_for_delete.STARTDATE = r.STARTDATE;
+            r_for_delete.STATUSMEDICINE = r.STATUSMEDICINE;
             db.SaveChanges();
         }
 
@@ -57,14 +68,14 @@ namespace Dal
         public static List<TakingDetails> GetTakingDetailsByGmail(string gmail)
         {
             List<TakingDetails> listTakeD = new List<TakingDetails>();
-            var listTd = db.REMINDERStbl.Where(x => x.GMAIL == gmail).Select(x => new { namemed = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.NAMEMEDICINE, NamePatient = x.USERStbl.FNAME, Freqiency = x.REMINDERDETAILStbl.FREQUINCY , startDate = x.REMINDERDETAILStbl.STARTDATE , comment =x.REMINDERDETAILStbl.COMMENT, numDays = x.REMINDERDETAILStbl.AMOUNTDAYS });
+            var listTd = db.REMINDERStbl.Where(x => x.GMAIL == gmail).Select(x => new { namemed = x.REMINDERDETAILStbl.MEDICINESTOCKtbl.MEDICINEtbl.NAMEMEDICINE, NamePatient = x.USERStbl.FNAME, Freqiency = x.REMINDERDETAILStbl.FREQUINCY, startDate = x.REMINDERDETAILStbl.STARTDATE, comment = x.REMINDERDETAILStbl.COMMENT, numDays = x.REMINDERDETAILStbl.AMOUNTDAYS });
 
             foreach (var item in listTd)
             {
                 double nDays = double.Parse(item.numDays.ToString());
                 double LeftD = (item.startDate.Value.AddDays(nDays) - DateTime.Today).TotalDays;
 
-                listTakeD.Add(new TakingDetails { MedicineName=item.namemed, NamePatient =item.NamePatient, frequincy= short.Parse(item.Freqiency.ToString()), LeftDays= short.Parse(LeftD.ToString()),comment=item.comment});
+                listTakeD.Add(new TakingDetails { MedicineName = item.namemed, NamePatient = item.NamePatient, frequincy = short.Parse(item.Freqiency.ToString()), LeftDays = short.Parse(LeftD.ToString()), comment = item.comment });
             }
             return listTakeD;
         }
