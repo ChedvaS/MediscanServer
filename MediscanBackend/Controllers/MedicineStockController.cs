@@ -20,6 +20,26 @@ namespace MediscanBackend.Controllers
         {
             return Ok(medicinestockBl.Getmedicinestock(idMedicine));
         }
+
+
+        //הוספה 
+
+        //הוספה לרשימה
+        [HttpPut]
+        [Route("AddMedicineStock")]
+        public IHttpActionResult AddMedicineStock(medicinestockEntities mdicineS)
+        {
+            try
+            {
+                medicinestockBl.addMedicinestock(mdicineS);
+                return Ok(true);
+
+            }
+            catch
+            {
+                return Ok(false);
+            }
+        }
         //עידכון 
         [HttpPost]
         [Route("updateMedicine")]

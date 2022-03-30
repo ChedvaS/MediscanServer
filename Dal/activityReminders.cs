@@ -9,9 +9,6 @@ namespace Dal
     public class activityReminders
     {
 
-        public short MedicineId { get; set; }
-
-        public Nullable<short> reminderDId { get; set; }
         public string MedicineName { get; set; }
         public short LeftDays { get; set; }
         public short MedicineId { get; set; }
