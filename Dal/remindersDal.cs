@@ -16,8 +16,13 @@ namespace Dal
 
             try
             {
-                var l = db.REMINDERStbl.ToList();
-                return l;
+                if (db.REMINDERStbl.ToList() != null) 
+                {
+                    var l = db.REMINDERStbl.ToList();
+                    return l; 
+                }
+                return null;
+            
             }
             catch
             {
